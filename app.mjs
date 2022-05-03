@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-//import * as core from "./core-notes.mjs";
+import * as core from "./core-notes.mjs";
 
 const yarg = yargs(hideBin(process.argv))
 
@@ -10,7 +10,7 @@ yarg.command({
     command: 'list',
     describe: 'Lista le tue note',
     handler() {
-        console.log('lista tutte le note');
+        core.listNotes();
     }
 })
 
@@ -30,7 +30,9 @@ yarg.command({
         }
     },
     handler(argv) {
-        console.log('aggiungi una nota');
+        //console.log('Risultato', argv.title, argv.body);
+
+        core.addNote(argv.title, argv.body);
     }
 })
 

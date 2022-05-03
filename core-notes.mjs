@@ -2,11 +2,11 @@ import * as fs from 'fs';
 import chalk from 'chalk';
 
 const findNote = function (notes, title) {
-    //
+    return notes.find(note => note.title === title);
 }
 
 const displayNote = function (note) {
-    console.log('Nota \n\t', `${chalk.green(note.title)}: ${chalk.green(note.body)}`, '\n')
+    console.log('Nota \n\t', `${chalk.red(note.title)}: ${chalk.green(note.body)}`, '\n')
 }
 
 const errorHelper = function () {
@@ -14,13 +14,19 @@ const errorHelper = function () {
 }
 
 const addNote = function (title, body) {
-    const notes = [];
-    const noteExist = [];
+    const notes = loadNotes();
+    const noteExist = findNote(notes, title);
 
     if (!noteExist) {
-        //
+        notes.push({
+            title: title,
+            body: body
+        })
+        // console.log('posso inserire la nota', '\n')
+        // console.log('ora le note sono state modificare: ', notes)
+        saveNotes(notes);
     } else {
-        //
+        chalk.red('Non puoi inserire la nota, esiste già.', '\n')
     }
 }
 
@@ -36,10 +42,16 @@ const removeNote = function (title) {
 }
 
 const listNotes = function () {
-    const notes = [];
+    const notes = loadNotes();
+    console.log('Note:\t');
 
-    console.log(chalk('Lista note'), '\n');
-
+    notes.map(note => {
+        displayNote(note); // o in alternativa le righe seguenti:
+        // const title = chalk.green(note.title);
+        // const body = chalk.red(note.body);
+        // console.log('\t', `${title} - ${body}`, '\n');
+    })
+    // console.log(notes, chalk('questo messaggio Lista note'), '\n');
 }
 
 const readNote = function (title) {
@@ -64,6 +76,7 @@ const loadNotes = function () {
         const result = data.toString()
         return JSON.parse(result)
     } catch (e) {
+        // console.log('ERRORE file non trovato', e.message)
         return []
     }
 }
