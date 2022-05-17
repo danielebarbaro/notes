@@ -25,25 +25,29 @@ const addNote = function (title, body) {
         // console.log('posso inserire la nota', '\n')
         // console.log('ora le note sono state modificare: ', notes)
         saveNotes(notes);
+        console.log(chalk.green('Nota aggiunta con successo', '\n'));
     } else {
-        chalk.red('Non puoi inserire la nota, esiste già.', '\n')
+        console.log(chalk.red('Non puoi inserire la nota, esiste già.', '\n'));
     }
 }
 
 const removeNote = function (title) {
-    const notes = [];
-    const notesToKeep = [];
+    const notes = loadNotes();
 
-    if (true) {
-        //
+    const notesToKeep = notes.filter((nota) => {
+        return nota.title !== title;
+    });
+
+    if (notes.length > notesToKeep.length) {
+        saveNotes(notesToKeep);
+        console.log(chalk.green('Nota cancellata con successo', '\n'));
     } else {
-        //
+        errorHelper();
     }
 }
 
 const listNotes = function () {
     const notes = loadNotes();
-    console.log('Note:\t');
 
     notes.map(note => {
         displayNote(note); // o in alternativa le righe seguenti:
@@ -55,13 +59,12 @@ const listNotes = function () {
 }
 
 const readNote = function (title) {
-    const notes = [];
+    const notes = loadNotes();
     const noteExist = findNote(notes, title);
-
     if (noteExist) {
-        //
+        displayNote(noteExist);
     } else {
-        //
+        errorHelper();
     }
 }
 

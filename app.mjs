@@ -1,6 +1,8 @@
 import yargs from 'yargs'
-import { hideBin } from 'yargs/helpers'
+import {hideBin} from 'yargs/helpers'
 import * as core from "./core-notes.mjs";
+
+//MAIUSC + ALT + F <= formatta il codice in visual studio code (Reformat Code)
 
 const yarg = yargs(hideBin(process.argv))
 
@@ -47,7 +49,7 @@ yarg.command({
         }
     },
     handler(argv) {
-        console.log('rimuovi una nota');
+        core.removeNote(argv.title);
     }
 })
 
@@ -62,7 +64,7 @@ yarg.command({
         }
     },
     handler(argv) {
-        console.log('leggi una nota');
+        core.readNote(argv.title);
     }
 })
 
